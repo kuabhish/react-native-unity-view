@@ -16,6 +16,10 @@ export interface UnityViewProps extends ViewProps {
      * Receive unity message from unity.
      */
     onUnityMessage?: (handler: MessageHandler) => void;
+    /**
+     * Receives the gameIndex, if it can help in any way
+     */
+    // gameIndex: number;
 
     children?: React.ReactNode
 }
@@ -54,6 +58,7 @@ class UnityView extends Component<UnityViewProps> {
                 style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}
                 onUnityMessage={props.onUnityMessage}
                 onMessage={props.onMessage}
+                // gameIndex={props.gameIndex}
             >
             </NativeUnityView>
             {props.children}
@@ -61,38 +66,6 @@ class UnityView extends Component<UnityViewProps> {
         )
     }
 }
-/*
-const UnityView = ({ onUnityMessage, onMessage, ...props } : UnityViewProps) => {
-    const [handle, setHandle] = useState(null)
-
-    useEffect(() => {
-        setHandle(UnityModule.addMessageListener(message => {
-            if (onUnityMessage && message instanceof MessageHandler) {
-                onUnityMessage(message)
-            }
-            if (onMessage && typeof message === 'string') {
-                onMessage(message)
-            }
-        }))
-        return () => {
-            UnityModule.removeMessageListener(handle)
-        }
-    }, [onUnityMessage, onMessage, handle, setHandle])
-
-    return (
-        <View {...props}>
-            <NativeUnityView
-                style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}
-                onUnityMessage={onUnityMessage}
-                onMessage={onMessage}
-            >
-            </NativeUnityView>
-            {props.children}
-        </View>
-    )
-}
-*/
 
 NativeUnityView = requireNativeComponent('RNUnityView', UnityView)
-
 export default UnityView;
